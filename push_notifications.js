@@ -1,11 +1,10 @@
-var GCM_SENDER_ID = 111
+// this needs to be set to your GCM Sender ID
+var GCM_SENDER_ID = 111;
 /**
  * Implements hook_deviceready().
  */
 
 function push_notifications_deviceready() {
-  Drupal.user.uid = 1;
-  push_notifications_register_device_token('token');
   try {
     // When the device is connected, if the user is anonymous we don't want to register a token
     if (Drupal.user.uid == 0) {
