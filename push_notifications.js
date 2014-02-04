@@ -57,6 +57,8 @@ function push_notifications_register_device_token(token) {
       'token': token,
       'type': push_notifications_platform_token(device.platform),
     };
+    // give other modules a chance to react to registering a push notification
+    module_invoke_all('push_notifications_register');
     push_notificiations_create(data, {
       success: function(result) {
         if (result['success'] == 1) {
