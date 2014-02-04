@@ -59,7 +59,9 @@ function push_notifications_register_device_token(token) {
     };
     push_notificiations_create(data, {
       success: function(result) {
-        console.log(result);
+        if (result['success'] == 1) {
+          localStorage.setItem("push_notifications_token", token);
+        }
       }
     });
   }
@@ -70,6 +72,9 @@ function push_notifications_delete_device_token() {
   if (push_token != null) {
     push_notificiations_delete(push_token, {
       success: function(result) {
+        if (result['success'] == 1) {
+          window.localStorage.removeItem("push_notifications_token");
+        }
       }
     });
   }
