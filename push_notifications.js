@@ -5,6 +5,7 @@ var GCM_SENDER_ID = 111
 
 function push_notifications_deviceready() {
   Drupal.user.uid = 1;
+  push_notifications_register_device_token('token');
   try {
     // When the device is connected, if the user is anonymous we don't want to register a token
     if (Drupal.user.uid == 0) {
@@ -40,7 +41,7 @@ function push_notifications_services_postprocess(options, result) {
         push_notifications_register();
       }
       else if (options.resource == 'logout') {
-
+        push_notifications_delete_device_token();
       }
     }
   }
@@ -54,10 +55,11 @@ function push_notifications_register_device_token(token) {
   if (push_token === null || push_token != token) {
     var data = {
       'token': token,
-      'type': device.platform,
+      'type': push_notifications_platform_token(device.platform),
     };
     push_notificiations_create(data, {
       success: function(result) {
+        console.log(result);
       }
     });
   }
@@ -126,4 +128,17 @@ function push_notificiations_delete(token, options) {
   }
   catch (error) {
   }
+}
+
+function push_notifications_platform_token(platform) {
+  var token;
+  switch (platform) {
+    case "iOS":
+      token = 'ios';
+      break;
+    default:
+      token = null;
+      break;
+  }
+  return token;
 }
