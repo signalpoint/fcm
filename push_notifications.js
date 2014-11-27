@@ -142,6 +142,9 @@ function push_notifications_platform_token(platform) {
     case "iOS":
       token = 'ios';
       break;
+    case "Android":
+      token = 'android';
+      break;
     default:
       token = null;
       break;
