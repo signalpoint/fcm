@@ -58,7 +58,7 @@ function push_notifications_register_device_token(token) {
     };
     // give other modules a chance to react to registering a push notification
     module_invoke_all('push_notifications_register');
-    push_notificiations_create(data, {
+    push_notifications_create(data, {
       success: function(result) {
         if (result['success'] == 1) {
           localStorage.setItem("push_notifications_token", token);
@@ -71,7 +71,7 @@ function push_notifications_register_device_token(token) {
 function push_notifications_delete_device_token() {
   var push_token = localStorage.getItem('push_notifications_token');
   if (push_token != null) {
-    push_notificiations_delete(push_token, {
+    push_notifications_delete(push_token, {
       success: function(result) {
         if (result['success'] == 1) {
           window.localStorage.removeItem("push_notifications_token");
@@ -112,7 +112,7 @@ function onNotificationAPN(event) {
   }
 }
 
-function push_notificiations_create(data, options) {
+function push_notifications_create(data, options) {
   try {
     options.method = 'POST';
     options.path = 'push_notifications';
@@ -124,7 +124,7 @@ function push_notificiations_create(data, options) {
   catch (error) {
   }
 }
-function push_notificiations_delete(token, options) {
+function push_notifications_delete(token, options) {
   try {
     options.method = 'DELETE';
     options.path = 'push_notifications/' + token;
