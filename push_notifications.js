@@ -1,5 +1,9 @@
-// this needs to be set to your GCM Sender ID
+// This needs to be set to your GCM Sender ID.
 var GCM_SENDER_ID = 111;
+
+// For code examples, look here:
+// https://github.com/phonegap-build/PushPlugin
+
 /**
  * Implements hook_deviceready().
  */
@@ -82,9 +86,11 @@ function push_notifications_delete_device_token() {
 }
 
 function push_notifications_successHandler(result) {
-
+//  console.log('push_notifications_successHandler - ' + result);
 }
+
 function push_notifications_errorHandler(error) {
+  console.log('push_notifications_errorHandler - ' + error);
 }
 
 function onNotificationGCM(e) {
@@ -98,8 +104,10 @@ function onNotificationGCM(e) {
     case 'message':
       break;
     case 'error':
+        console.log('onNotificationGCM -' . e.msg);
       break;
     default:
+        console.log('onNotificationGCM - unknown event received');
       break;
   }
 }
@@ -122,6 +130,7 @@ function push_notifications_create(data, options) {
     Drupal.services.call(options);
   }
   catch (error) {
+    console.log('push_notifications_create - ' + data);
   }
 }
 function push_notifications_delete(token, options) {
@@ -133,6 +142,7 @@ function push_notifications_delete(token, options) {
     Drupal.services.call(options);
   }
   catch (error) {
+    console.log('push_notifications_delete - ' + token);
   }
 }
 
