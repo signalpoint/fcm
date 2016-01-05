@@ -49,7 +49,7 @@ function push_notifications_services_postprocess(options, result) {
     }
   }
   catch (error) {
-    console('push_notifications_services_postprocess - ' + error);
+    console.log('push_notifications_services_postprocess - ' + error);
   }
 }
 
