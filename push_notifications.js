@@ -1,8 +1,4 @@
-// This needs to be set to your GCM Sender ID.
-var GCM_SENDER_ID = 111;
-
-// For code examples, look here:
-// https://github.com/phonegap-build/PushPlugin
+var push = null;
 
 /**
  * Implements hook_deviceready().
@@ -10,11 +6,8 @@ var GCM_SENDER_ID = 111;
 
 function push_notifications_deviceready() {
   try {
-    // When the device is connected, if the user is anonymous we don't want to register a token
-    if (Drupal.user.uid == 0) {
-    } else {
-      push_notifications_register();
-    }
+    // When the device is connected and the user is authenticated, register a token.
+    if (!Drupal.user.uid == 0) { push_notifications_register(); }
   }
   catch (error) {
     console.log('push_notifications_deviceready - ' + error);
@@ -25,13 +18,35 @@ function push_notifications_tokenHandler(token) {
 }
 
 function push_notifications_register() {
-  var pushNotification;
-  pushNotification = window.plugins.pushNotification;
-  if (device.platform == 'android' || device.platform == 'Android') {
-    pushNotification.register(push_notifications_successHandler, push_notifications_errorHandler, {"senderID": GCM_SENDER_ID, "ecb": "onNotificationGCM"});
-  } else {
-    pushNotification.register(push_notifications_tokenHandler, push_notifications_errorHandler, {"badge": "false", "sound": "true", "alert": "true", "ecb": "onNotificationAPN"});
-  }
+
+  // Initializes the plugin.
+  push = PushNotification.init(drupalgap.settings.push_notifications);
+
+  // Set up the registration, notification and error handlers.
+  push.on('registration', function(data) {
+    push_notifications_register_device_token(data.registrationId);
+  });
+
+  push.on('notification', function(data) {
+
+    // data.message,
+    // data.title,
+    // data.count,
+    // data.sound,
+    // data.image,
+    // data.additionalData
+
+    // @TODO this would be a great spot for a hook.
+
+    // Display the push notification.
+    drupalgap_alert(data.message, {
+      title: drupalgap.settings.title,
+      buttonName: 'OK'
+    });
+
+  });
+
+  push.on('error', function(e) { drupalgap_alert(e.message); });
 }
 /**
  * Implements hook_services_postprocess().
@@ -82,41 +97,6 @@ function push_notifications_delete_device_token() {
         }
       }
     });
-  }
-}
-
-function push_notifications_successHandler(result) {
-//  console.log('push_notifications_successHandler - ' + result);
-}
-
-function push_notifications_errorHandler(error) {
-  console.log('push_notifications_errorHandler - ' + error);
-}
-
-function onNotificationGCM(e) {
-  switch (e.event)
-  {
-    case 'registered':
-      if (e.regid.length > 0) {
-        push_notifications_register_device_token(e.regid);
-      }
-      break;
-    case 'message':
-      break;
-    case 'error':
-        console.log('onNotificationGCM -' . e.msg);
-      break;
-    default:
-        console.log('onNotificationGCM - unknown event received');
-      break;
-  }
-}
-
-function onNotificationAPN(event) {
-  if (event.alert) {
-  }
-  if (event.sound) {
-    //navigator.notification.vibrate(2000);
   }
 }
 
