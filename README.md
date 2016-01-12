@@ -5,7 +5,9 @@ The Push Notifications module for DrupalGap helps users to send push messages fr
 
 ## Installation
 
-3. Install `PhoneGap Plugin Push`
+### PhoneGap Plugin Push
+
+First, install the `PhoneGap Plugin Push`
 
 https://github.com/phonegap/phonegap-plugin-push
 
@@ -20,11 +22,11 @@ You may have to run this command if you're having issues compiling to an Android
 android update sdk --no-ui --filter "extra"
 ```
 
+### Setting up a Platform(s)
+
 Next, follow these steps for your desired platform(s):
 
-## Android
-
-### Server key
+#### Android
 
 1. Go to https://console.cloud.google.com/home/dashboard
 2. Create a new project (or use an existing one)
@@ -37,13 +39,11 @@ Next, follow these steps for your desired platform(s):
 9. Click `Create API key`
 10. Copy the API key and set it aside
 
-### Device ready
-
-## iOS
+#### iOS
 
 ...
 
-Next...
+### Push Notifications Module for Drupal
 
 1. Download and enable the Push Notifications module for Drupal: https://www.drupal.org/project/push_notifications
 2. In Drupal, go to `admin/config/services/push_notifications/configure`
@@ -53,6 +53,8 @@ Next...
 6. Check the box next to `push_notifications` to enable its `create` and `delete` resources
 7. Click `Save`
 8. Flush all of Drupal's caches
+
+BEGIN: THIS SECTION MIGHT NOT BE NEEDED
 
 Next, we'll head back to the Google Cloud Platform API (if you're working with Android)...
 
@@ -72,14 +74,20 @@ Next, we'll head back to the Google Cloud Platform API (if you're working with A
 14. Go back to the Google window and paste in the `SHA1` fingerprint
 15. Click `Create`, then copy the API key that is shown
 
+END: THIS SECTION MIGHT NOT BE NEEDED
+
+### Get an Android Sender ID
+
 Next, get the `senderID` by...
 
-1. https://console.developers.google.com/home/dashboard
+1. Go to https://console.developers.google.com/home/dashboard
 2. On your project's dashboard, you should see the `ID`
 3. Click on the down arrow next to the `ID`
 4. Copy the `Project number`, this will go into your `settings.js` file
 
-Next, add this to your app's `settings.js` file:
+### Adding config to settings.js
+
+Next, add this to your app's `settings.js` file, using the `Project number` from above as the `senderID` below:
 
 ```
 drupalgap.settings.push_notifications = {
@@ -94,3 +102,13 @@ drupalgap.settings.push_notifications = {
   windows: {}
 };
 ```
+
+That's it, finally. You're now ready to send a push notification. Compile the app to a mobile device to test it out.
+
+## Usage
+
+### Sending a Push Notification
+
+In Drupal, first go to `admin/config/services/push_notifications` and verify that a token has been registered for your
+desired device(s). If there is a token registered, then go to  `admin/config/services/push_notifications/message` and
+fill out the form to send a push notification to your desired platform(s).
