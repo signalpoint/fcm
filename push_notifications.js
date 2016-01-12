@@ -13,9 +13,6 @@ function push_notifications_deviceready() {
     console.log('push_notifications_deviceready - ' + error);
   }
 }
-function push_notifications_tokenHandler(token) {
-  push_notifications_register_device_token(token);
-}
 
 function push_notifications_register() {
 
