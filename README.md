@@ -41,7 +41,15 @@ Next, follow these steps for your desired platform(s):
 
 #### iOS
 
-...
+> High level overview
+
+```
+cd ~/Desktop
+openssl pkcs12 -clcerts -nokeys -out apns-dev-cert.pem -in apns-dev-cert.p12 
+openssl pkcs12 -nocerts -out apns-dev-key.pem -in apns-dev-key.p12 
+cat apns-dev-cert.pem apns-dev-key.pem > apns-dev.pem
+scp apns-dev.pem me@example.com:~/
+```
 
 ### Push Notifications Module for Drupal
 
