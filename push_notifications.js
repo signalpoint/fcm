@@ -1,19 +1,5 @@
 var push = null;
 
-/**
- * Implements hook_deviceready().
- */
-
-function push_notifications_deviceready() {
-  try {
-    // When the device is connected and the user is authenticated, register a token.
-    if (!Drupal.user.uid == 0) { push_notifications_register(); }
-  }
-  catch (error) {
-    console.log('push_notifications_deviceready - ' + error);
-  }
-}
-
 function push_notifications_register() {
 
   // Initializes the plugin.
@@ -50,14 +36,13 @@ function push_notifications_register() {
  */
 function push_notifications_services_postprocess(options, result) {
   try {
-    // When the user login service resource is successful store a token
-    if (options.service == 'user') {
-      if (options.resource == 'login') {
-        push_notifications_register();
-      }
-      else if (options.resource == 'logout') {
-        push_notifications_delete_device_token();
-      }
+    // When an authenticated user is connected, register a token.
+    if (options.service == 'system' && options.resource == 'connect') {
+      if (Drupal.user.uid) { push_notifications_register(); }
+    }
+    // When a user logs out, delete the token.
+    else if (options.service == 'user' && options.resource == 'logout') {
+      push_notifications_delete_device_token();
     }
   }
   catch (error) {
