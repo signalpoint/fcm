@@ -2,12 +2,27 @@
 
 The Push Notifications module for DrupalGap helps users to send push messages from their Drupal website to devices.
 
-
 ## Installation
+
+Before getting started, make sure you're running the latest versions of:
+
+- PhoneGap/Cordova
+- Android SDK(s)
+- iOS/xCode
+
+### Push Notifications Module for DrupalGap
+
+First, download and extract this module so it lives here:
+
+`app/modules/push_notifications`
+
+Add it to the `settings.js` file:
+
+`Drupal.modules.contrib['push_notifications'] = {};`
 
 ### PhoneGap Plugin Push
 
-First, install the `PhoneGap Plugin Push`
+Then install the `PhoneGap Plugin Push`
 
 https://github.com/phonegap/phonegap-plugin-push
 
@@ -16,11 +31,21 @@ cordova plugin add phonegap-plugin-push
 cordova plugin save
 ```
 
-You may have to run this command if you're having issues compiling to an Android device:
+#### Android Notes
 
-```
-android update sdk --no-ui --filter "extra"
-```
+You may have to run this command if you're having issues building for an Android device:
+
+`android update sdk --no-ui --filter "extra"`
+
+#### iOS Notes
+
+You'll need to be running at least `cordova-ios@4.0.1` to get the build to compile proplery for iOS. To see your current version of the iOS platform:
+
+`cordova platform ios`
+
+Then if it isn't running at least `4.0.1`, then run this command:
+
+`cordova platform update ios@4.0.1`
 
 ### Setting up a Platform(s)
 
