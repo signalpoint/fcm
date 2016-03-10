@@ -87,9 +87,9 @@ scp apns-dev.pem me@example.com:~/
 7. Click `Save`
 8. Flush all of Drupal's caches
 
-BEGIN: THIS SECTION MIGHT NOT BE NEEDED
-
 Next, we'll head back to the Google Cloud Platform API (if you're working with Android)...
+
+### Get an Android Sender ID
 
 1. Go to https://console.cloud.google.com
 2. Click on the `Credentials` button in the sidebar menu for your project
@@ -106,10 +106,6 @@ Next, we'll head back to the Google Cloud Platform API (if you're working with A
 13. Copy the `SHA1` fingerprint
 14. Go back to the Google window and paste in the `SHA1` fingerprint
 15. Click `Create`, then copy the API key that is shown
-
-END: THIS SECTION MIGHT NOT BE NEEDED
-
-### Get an Android Sender ID
 
 Next, get the `senderID` by...
 
