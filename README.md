@@ -20,6 +20,16 @@ Add it to the `settings.js` file:
 
 `Drupal.modules.contrib['push_notifications'] = {};`
 
+### Adobe Phonegap Build
+
+If you are using Adobe Phonegap Build to compile your app, add this plugin to your __config.xml__ file:
+
+`<gap:plugin name="com.devicepush.cordova-phonegap" source="npm" />`
+
+which is described here:
+
+https://www.npmjs.com/package/com.devicepush.cordova-phonegap
+
 ### PhoneGap Plugin Push
 
 Then install the `PhoneGap Plugin Push`
