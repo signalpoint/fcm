@@ -36,9 +36,10 @@ function push_notifications_register() {
  */
 function push_notifications_services_postprocess(options, result) {
   try {
+    if (drupalgap.settings.mode != 'phonegap') { return; }
     // When an authenticated user is connected, register a token.
     if (options.service == 'system' && options.resource == 'connect') {
-      if (Drupal.user.uid) { push_notifications_register(); }
+      if (user_access('register device token')) { push_notifications_register(); }
     }
     // When a user logs out, delete the token.
     else if (options.service == 'user' && options.resource == 'logout') {
@@ -55,7 +56,7 @@ function push_notifications_register_device_token(token) {
   if (push_token === null || push_token != token) {
     var data = {
       'token': token,
-      'type': push_notifications_platform_token(device.platform),
+      'type': push_notifications_platform_token(device.platform)
     };
     // give other modules a chance to react to registering a push notification
     module_invoke_all('push_notifications_register');
