@@ -151,3 +151,31 @@ That's it, finally. You're now ready to send a push notification. Compile the ap
 In Drupal, first go to `admin/config/services/push_notifications` and verify that a token has been registered for your
 desired device(s). If there is a token registered, then go to  `admin/config/services/push_notifications/message` and
 fill out the form to send a push notification to your desired platform(s).
+
+### Receiving a Push Notification
+
+To handle the receipt of a push notification, implement this hook in your custom DrupalGap module's `.js` file:
+
+```
+/**
+ * Implements hook_push_notifications_receive().
+ **/
+function my_module_push_notifications_receive(data) {
+
+  // data.message
+  // data.title
+  // data.count
+  // data.sound
+  // data.image
+  // data.additionalData
+  
+  // Display the push notification.
+  drupalgap_alert(data.message, {
+    title: drupalgap.settings.title,
+    buttonName: 'OK'
+  });
+  
+}
+```
+
+When a push notifications is received, developers can take action as they need. The example above simply shows the push notification in an alert dialog.
