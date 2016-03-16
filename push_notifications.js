@@ -10,23 +10,9 @@ function push_notifications_register() {
     push_notifications_register_device_token(data.registrationId);
   });
 
+  // Handle the receipt of a notification.
   push.on('notification', function(data) {
-
-    // data.message,
-    // data.title,
-    // data.count,
-    // data.sound,
-    // data.image,
-    // data.additionalData
-
-    // @TODO this would be a great spot for a hook.
-
-    // Display the push notification.
-    drupalgap_alert(data.message, {
-      title: drupalgap.settings.title,
-      buttonName: 'OK'
-    });
-
+    module_invoke_all('push_notifications_receive', data);
   });
 
   push.on('error', function(e) { drupalgap_alert(e.message); });
