@@ -41,6 +41,8 @@ cordova plugin add phonegap-plugin-push
 cordova plugin save
 ```
 
+If the plugin listed above doesn't work, try the `com.devicepush.cordova-phonegap` instead, followed by the `save` command.
+
 #### Android Notes
 
 You may have to run this command if you're having issues building for an Android device:
