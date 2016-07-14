@@ -45,22 +45,6 @@ We'll change the value of `12345` later on via `settings.js`.
 
 If the plugin listed above doesn't work, try the `com.devicepush.cordova-phonegap` instead, followed by the `save` command.
 
-#### Android Notes
-
-You may have to run this command if you're having issues building for an Android device:
-
-`android update sdk --no-ui --filter "extra"`
-
-#### iOS Notes
-
-You'll need to be running at least `cordova-ios@4.0.1` to get the build to compile proplery for iOS. To see your current version of the iOS platform:
-
-`cordova platform ios`
-
-Then if it isn't running at least `4.0.1`, then run this command:
-
-`cordova platform update ios@4.0.1`
-
 ### Setting up a Platform(s)
 
 Next, follow these steps for your desired platform(s):
@@ -70,7 +54,7 @@ Next, follow these steps for your desired platform(s):
 1. Go to https://console.cloud.google.com/home/dashboard
 2. Create a new project (or use an existing one)
 3. On the `Dashboard`, click `Enable and manage APIs`
-4. Enable the `Google Cloud Messaging for Android` API
+4. Enable the `Google Cloud Messaging` for Android API
 5. Once enabled, click `Go to Credentials`
 6. Under `Where will you be calling the API from?` choose `Web server`
 7. Click `What credentials do I need?`
@@ -106,27 +90,29 @@ Next, we'll head back to the Google Cloud Platform API (if you're working with A
 ### Get an Android Sender ID
 
 1. Go to https://console.cloud.google.com
-2. Click on the `Credentials` button in the sidebar menu for your project
-3. Click the `New credentials` button
-4. Select `API key`
-5. Click `Android key`
-6. Enter a `Name` for your key, e.g. `example.com`
-7. Click the `+ Add package name and fingerprint` button
-8. Enter the `Package name`, which can be found as the value of the `package` attribute in the `manifest` element in the `AndroidManifest.xml` file
-9. Open a terminal window and navigate to the root of your cordova project
-10. Run this command: `keytool -genkey -v -keystore example.keystore -alias example -keyalg RSA -keysize 2048 -validity 10000`
-11. Follow all the prompts and take note of the password you enter, because you'll need it later
-12. Run this command: `keytool -exportcert -alias example -keystore example.keystore -list -v`
-13. Copy the `SHA1` fingerprint
-14. Go back to the Google window and paste in the `SHA1` fingerprint
-15. Click `Create`, then copy the API key that is shown
+2. On the `Dashboard`, click `Enable and manage APIs`
+3. Click on the `Credentials` button in the sidebar menu for your project
+4. Click the `Create credentials` button
+5. Select `API key`
+6. Click `Android key`
+7. Enter a `Name` for your key, e.g. `example.com`
+8. Click the `+ Add package name and fingerprint` button
+9. Enter the `Package name`, which can be found as the value of the `package` attribute in the `manifest` element in the `AndroidManifest.xml` file
+10. Open a terminal window and navigate to the root of your cordova project
+11. Run this command: `keytool -genkey -v -keystore example.keystore -alias example -keyalg RSA -keysize 2048 -validity 10000`
+12. Follow all the prompts and take note of the password you enter, because you'll need it later
+13. Run this command: `keytool -exportcert -alias example -keystore example.keystore -list -v`
+14. Copy the `SHA1` fingerprint
+15. Go back to the Google window and paste in the `SHA1` fingerprint
+16. Click `Create`, then copy the API key that is shown
 
 Next, get the `senderID` by...
 
-1. Go to https://console.developers.google.com/home/dashboard
-2. On your project's dashboard, you should see the `ID`
-3. Click on the down arrow next to the `ID`
-4. Copy the `Project number`, this will go into your `settings.js` file
+1. Go to https://console.developers.google.com/apis/library
+2. Under the drop down menu, click `Manage all projects`
+3. Click on your project's name
+4. Click on `Settings` in the left sidebar
+5. Copy the `Project number`, this will go into your `settings.js` file as the `senderID` for Android.
 
 ### Adding config to settings.js
 
@@ -147,6 +133,28 @@ drupalgap.settings.push_notifications = {
 ```
 
 That's it, finally. You're now ready to send a push notification. Compile the app to a mobile device to test it out.
+
+#### Android Quirks
+
+You may have to run this command if you're having issues building for an Android device:
+
+```
+android update sdk --no-ui --filter "extra"
+```
+
+#### iOS Quirks
+
+You'll need to be running at least `cordova-ios@4.0.1` to get the build to compile properly for iOS. To see your current version of the iOS platform:
+
+```
+cordova platform ios
+```
+
+Then if it isn't running at least `4.0.1`, then run this command:
+
+```
+cordova platform update ios@4.0.1
+```
 
 ## Usage
 
