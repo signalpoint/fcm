@@ -23,12 +23,12 @@ function push_notifications_register() {
 function push_notifications_services_postprocess(options, result) {
   try {
     if (drupalgap.settings.mode != 'phonegap') { return; }
-    // When an authenticated user is connected, register a token.
-    if (options.service == 'system' && options.resource == 'connect') {
-      if (user_access('register device token')) { push_notifications_register(); }
+    // When a user is connected and is allowed to register a token, do it.
+    if (options.service == 'system' && options.resource == 'connect' && user_access('register device token')) {
+      push_notifications_register();
     }
-    // When a user logs out, delete the token.
-    else if (options.service == 'user' && options.resource == 'logout') {
+    // When a user logs out and is allowed to delete a token, do it.
+    else if (options.service == 'user' && options.resource == 'logout' && user_access('remove device token')) {
       push_notifications_delete_device_token();
     }
   }
