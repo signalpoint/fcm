@@ -37,9 +37,11 @@ Then install the `PhoneGap Plugin Push`
 https://github.com/phonegap/phonegap-plugin-push
 
 ```
-cordova plugin add phonegap-plugin-push
+cordova plugin add phonegap-plugin-push --variable SENDER_ID=12345
 cordova plugin save
 ```
+
+We'll change the value of `12345` later on via `settings.js`.
 
 If the plugin listed above doesn't work, try the `com.devicepush.cordova-phonegap` instead, followed by the `save` command.
 
