@@ -85,6 +85,12 @@ scp apns-dev.pem me@example.com:~/
 7. Click `Save`
 8. Flush all of Drupal's caches
 
+#### Module Permissions in Drupal
+
+1. Go to `admin/people/permissions` in Drupal
+2. Go to the `Push Notifications` section
+3. Grant permission to `Register device token` and `Remove device token` to your desired user role(s), we recommend giving this permission to both anonymous and authenticated users
+
 Next, we'll head back to the Google Cloud Platform API (if you're working with Android)...
 
 ### Get an Android Sender ID
