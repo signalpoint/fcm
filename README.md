@@ -197,3 +197,44 @@ function my_module_push_notifications_receive(data) {
 ```
 
 When a push notifications is received, developers can take action as they need. The example above simply shows the push notification in an alert dialog.
+
+## Real World Examples
+
+### Send a push notification to display a node
+
+In this example, a Drupal admin will be able to send a push notification that when clicked by the end user will display a particular node in the app.
+
+In a custom Drupal module, alter the push notifications form so you can include a node id in the message payload:
+
+```
+/**
+ * Implements hook_form_alter().
+ */
+function example_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'push_notifications_mass_push_form':
+      $form['message']['nid'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Node ID'),
+        '#description' => t('Enter a the id of a node to display to the recipients.'),
+        '#size' => 6
+      );
+      break;
+  }
+}
+```
+
+Now in a custom DrupalGap module, take action when the push notification is received and send the user to view the node in the app:
+
+```
+/**
+ * Implements hook_push_notifications_receive().
+ */
+function sal_push_notifications_receive(data) {
+  if (data.additionalData && data.additionalData.nid) {
+    drupalgap_goto('node/' + data.additionalData.nid);
+  }
+}
+```
+
+That's it! Now when a user clicks the push notification on their device, it'll open the app and display the node.
