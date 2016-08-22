@@ -27,15 +27,28 @@ function push_notifications_services_postprocess(options, result) {
     if (options.service == 'system' && options.resource == 'connect' && user_access('register device token')) {
       push_notifications_register();
     }
-    // When a user logs out and is allowed to delete a token, do it.
-    else if (options.service == 'user' && options.resource == 'logout' && user_access('remove device token')) {
-      push_notifications_delete_device_token();
-    }
   }
   catch (error) {
     console.log('push_notifications_services_postprocess - ' + error);
   }
 }
+
+/**
+ * Implements hook_services_preprocess().
+ */
+function push_notifications_services_preprocess(options, result) {
+  try {
+    if (drupalgap.settings.mode != 'phonegap') { return; }
+    // When a user logs out and is allowed to delete a token, do it.
+    if (options.service == 'user' && options.resource == 'logout' && user_access('remove device token')) {
+      push_notifications_delete_device_token();
+    }
+  }
+  catch (error) {
+    console.log('push_notifications_services_preprocess - ' + error);
+  }
+}
+
 
 function push_notifications_register_device_token(token) {
   var push_token = localStorage.getItem('push_notifications_token');
