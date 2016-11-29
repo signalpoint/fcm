@@ -1,6 +1,6 @@
-# push_notifications
+# fcm
 
-The Push Notifications module for DrupalGap helps users to send push messages from their Drupal website to devices.
+The Firebase Cloud Messaging module for DrupalGap helps users to send cloud messages from their Drupal website to devices.
 
 ## Installation
 
@@ -14,36 +14,22 @@ Before getting started, make sure you're running the latest versions of:
 
 First, download and extract this module so it lives here:
 
-`app/modules/push_notifications`
+`app/modules/fcm`
 
 Add it to the `settings.js` file:
 
-`Drupal.modules.contrib['push_notifications'] = {};`
+`Drupal.modules.contrib['fcm'] = {};`
 
-### Adobe Phonegap Build
+### Google Firebase Cloud Messaging Cordova Push Plugin
 
-If you are using Adobe Phonegap Build to compile your app, add this plugin to your __config.xml__ file:
+Then install the `Google Firebase Cloud Messaging Cordova Push Plugin`
 
-`<gap:plugin name="com.devicepush.cordova-phonegap" source="npm" />`
-
-which is described here:
-
-https://www.npmjs.com/package/com.devicepush.cordova-phonegap
-
-### PhoneGap Plugin Push
-
-Then install the `PhoneGap Plugin Push`
-
-https://github.com/phonegap/phonegap-plugin-push
+https://github.com/fechanique/cordova-plugin-fcm
 
 ```
-cordova plugin add phonegap-plugin-push --variable SENDER_ID=12345
+cordova plugin add cordova-plugin-fcm
 cordova plugin save
 ```
-
-We'll change the value of `12345` later on via `settings.js`.
-
-If the plugin listed above doesn't work, try the `com.devicepush.cordova-phonegap` instead, followed by the `save` command.
 
 ### Setting up a Platform(s)
 
@@ -119,26 +105,6 @@ Next, get the `senderID` by...
 3. Click on your project's name
 4. Click on `Settings` in the left sidebar
 5. Copy the `Project number`, this will go into your `settings.js` file as the `senderID` for Android.
-
-### Adding config to settings.js
-
-Next, add this to your app's `settings.js` file, using the `Project number` from above as the `senderID` below:
-
-```
-drupalgap.settings.push_notifications = {
-  android: {
-    senderID: "12345679"
-  },
-  ios: {
-    alert: "true",
-    badge: "true",
-    sound: "true"
-  },
-  windows: {}
-};
-```
-
-That's it, finally. You're now ready to send a push notification. Compile the app to a mobile device to test it out.
 
 #### Android Quirks
 
@@ -228,13 +194,22 @@ Now in a custom DrupalGap module, take action when the push notification is rece
 
 ```
 /**
- * Implements hook_push_notifications_receive().
+ * Implements hook_fcm_receive().
  */
-function sal_push_notifications_receive(data) {
-  if (data.additionalData && data.additionalData.nid) {
-    drupalgap_goto('node/' + data.additionalData.nid);
+function example_fcm_receive(data) {
+  //if (data.additionalData && data.additionalData.nid) {
+  //  drupalgap_goto('node/' + data.additionalData.nid);
+  //}
+  if(data.wasTapped){
+    // Notification was received on device tray and tapped by the user.
+    alert( JSON.stringify(data) );
+  }
+  else{
+    // Notification was received in foreground. Maybe the user needs to be notified.
+    alert( JSON.stringify(data) );
   }
 }
 ```
 
 That's it! Now when a user clicks the push notification on their device, it'll open the app and display the node.
+
